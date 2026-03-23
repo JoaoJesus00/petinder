@@ -7,7 +7,7 @@ from flask_login import LoginManager # Gerenciador de login e sessão
 from flask_migrate import Migrate # Controla as mudanças no banco
 from config import Config # Importa as configurações do config.py
 
-db = SQLAlchemy()  # Cria as ferramentas
+db = SQLAlchemy()  # Cria as ferramentas do banco de dados
 login_manager = LoginManager()
 migrate = Migrate()
 

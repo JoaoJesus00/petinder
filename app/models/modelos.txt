@@ -1,0 +1,7 @@
+Os modelos são representações em Python das tabelas do banco de dados. Como o Python não fala SQL, esses modelos
+"traduzem" para o SQL entender, e os dois poderem interagir entre si. Sem os modelos, teríamos que escrever SQL manualmente.
+Os modelos definem as estruturas das tabelas.
+Fazem as buscas no banco.
+Guarda as regras de negócio.
+Resumindo:
+O Modelo é a representação em Python de uma tabela do banco de dados. Cada linha da tabela vira um objeto Python que você pode usar normalmente.

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}PeTinder — Cadastro{% endblock %}
+
+{% block content %}
+<div class="form-container">
+
+    <h2 class="text-center">🐾 Criar Conta</h2>
+    <p class="text-center text-muted">Encontre o par perfeito para o seu pet!</p>
+
+    <form method="POST" action="{{ url_for('auth.cadastro') }}">
+
+        <div class="mb-3">
+            <label class="form-label">Nome completo</label>
+            <input type="text" name="nome" class="form-control" placeholder="Seu nome" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">E-mail</label>
+            <input type="email" name="email" class="form-control" placeholder="seu@email.com" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">CPF</label>
+            <input type="text" name="cpf" class="form-control" placeholder="00000000000" maxlength="11" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Cidade</label>
+            <select name="id_cidade" class="form-select" required>
+                <option value="">Selecione sua cidade</option>
+                {% for cidade in cidades %}
+                    <option value="{{ cidade.id }}">{{ cidade.nome }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Endereço</label>
+            <input type="text" name="endereco" class="form-control" placeholder="Rua, número">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Senha</label>
+            <input type="password" name="senha" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Confirmar senha</label>
+            <input type="password" name="confirmar_senha" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <div class="d-grid mt-4">
+            <button type="submit" class="btn btn-danger btn-lg">
+                Criar conta
+            </button>
+        </div>
+
+    </form>
+
+    <hr>
+
+    <p class="text-center">
+        Já tem conta? 
+        <a href="{{ url_for('auth.login') }}">Entre aqui</a>
+    </p>
+
+</div>
+{% endblock %}

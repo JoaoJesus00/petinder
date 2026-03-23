@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}PeTinder — Login{% endblock %}
+
+{% block content %}
+<div class="form-container">
+
+    <h2 class="text-center">🐾 Entrar</h2>
+    <p class="text-center text-muted">Bem-vindo de volta!</p>
+
+    <form method="POST" action="{{ url_for('auth.login') }}">
+
+        <div class="mb-3">
+            <label class="form-label">E-mail</label>
+            <input type="email" name="email" class="form-control" placeholder="seu@email.com" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Senha</label>
+            <input type="password" name="senha" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <div class="d-grid mt-4">
+            <button type="submit" class="btn btn-danger btn-lg">
+                Entrar
+            </button>
+        </div>
+
+    </form>
+
+    <hr>
+
+    <p class="text-center">
+        Não tem conta? 
+        <a href="{{ url_for('auth.cadastro') }}">Cadastre-se aqui</a>
+    </p>
+
+</div>
+{% endblock %}
