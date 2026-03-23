@@ -1,0 +1,2 @@
+Separamos os arquivos de rotas para que o código e o projeto fique mais organizado.
+Princípio da responsabilidade única: cada arquivo cuida de apenas um assunto, tornando o código mais organizado e facilitando a manutenção.

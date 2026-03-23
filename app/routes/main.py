@@ -1,9 +1,8 @@
-# Arquivo de rotas para os html:
+# Arquivo de rotas para os html
+# Tudo que tem a ver com o uso do site em geral
+# Cuida de:
 # Home/Dashboard
 # Perfil do usuário
 # Página de upgrade Premium
-
-# Blueprint organiza as rotas em grupos, para ficar mais organizado
-from flask import Blueprint
-
-main = Blueprint('main', __name__)
+# Notificações
+# Blueprint: agrupa todas as rotas para o acesso dentro do app
