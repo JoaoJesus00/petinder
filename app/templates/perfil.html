@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}PeTinder — Meu Perfil{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <div class="form-container">
+
+            <h2 class="text-center">👤 Meu Perfil</h2>
+
+            <!-- INFORMAÇÕES DO PLANO -->
+            <div class="text-center mb-4">
+                {% if current_user.plano == 'free' %}
+                    <span class="badge-plano-free">Plano Free</span>
+                    <br>
+                    <small class="text-muted mt-1 d-block">
+                        {{ current_user.animais|length }}/1 pet cadastrado
+                    </small>
+                    <a href="{{ url_for('main.premium') }}" class="btn btn-warning btn-sm mt-2">
+                        ⭐ Fazer upgrade para Premium
+                    </a>
+                {% else %}
+                    <span class="badge-plano-premium">⭐ Premium</span>
+                    <br>
+                    <small class="text-muted mt-1 d-block">
+                        {{ current_user.animais|length }}/10 pets cadastrados
+                    </small>
+                {% endif %}
+            </div>
+
+            <hr>
+
+            <!-- FORMULÁRIO DE EDIÇÃO -->
+            <form method="POST" action="{{ url_for('main.perfil') }}">
+
+                <div class="mb-3">
+                    <label class="form-label">Nome completo</label>
+                    <input type="text" 
+                           name="nome" 
+                           class="form-control" 
+                           value="{{ current_user.nome }}"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">E-mail</label>
+                    <input type="email" 
+                           class="form-control" 
+                           value="{{ current_user.email }}"
+                           disabled>
+                    <small class="text-muted">O e-mail não pode ser alterado.</small>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">CPF</label>
+                    <input type="text" 
+                           class="form-control" 
+                           value="{{ current_user.cpf }}"
+                           disabled>
+                    <small class="text-muted">O CPF não pode ser alterado.</small>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Cidade</label>
+                    <select name="id_cidade" class="form-select" required>
+                        {% for cidade in cidades %}
+                            <option value="{{ cidade.id }}"
+                                {% if cidade.id == current_user.id_cidade %}
+                                    selected
+                                {% endif %}>
+                                {{ cidade.nome }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Endereço</label>
+                    <input type="text" 
+                           name="endereco" 
+                           class="form-control" 
+                           value="{{ current_user.endereco or '' }}">
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-danger btn-lg">
+                        Salvar alterações
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -6,6 +6,9 @@ from flask_sqlalchemy import SQLAlchemy # Ferramenta para conectar o Python ao b
 from flask_login import LoginManager # Gerenciador de login e sessão
 from flask_migrate import Migrate # Controla as mudanças no banco
 from config import Config # Importa as configurações do config.py
+from app.routes.auth import auth
+from app.routes.main import main
+from app.routes.pets import pets
 
 db = SQLAlchemy()  # Cria as ferramentas do banco de dados
 login_manager = LoginManager()
@@ -29,5 +32,8 @@ def create_app():
     # Blueprints para as rotas do app  
     app.register_blueprint(auth)
     app.register_blueprint(main)
+    app.register_blueprint(auth)
+    app.register_blueprint(pets)
+
     
     return app

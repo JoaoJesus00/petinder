@@ -19,18 +19,18 @@ auth = Blueprint('auth', __name__)
 def login():
     if current_user.is_authenticated: 
         return redirect(url_for('main.home')) # Se o usuário ja estiver logado redireciona pra home
-    
+    usuario = None
     if request.method == 'POST': # Se o usuário clica pra enviar o formulário entra nesse bloco
         email = request.form.get('email')
         senha = request.form.get('senha') # Pega os dados
         usuario = Usuario.query.filter_by(email=email).first() # Faz a busca no banco de dados
 
-    if usuario and usuario.check_senha(senha): # Verifica se encontrou o email e se a senha bate com a salva
-            login_user(usuario) # Efetiva o login
-            flash(f'Bem-vindo de volta, {usuario.nome}!', 'success') # Envia mensagem de boas-vindas
-            return redirect(url_for('main.home')) # Manda o usuário pra home
-    else:
-        flash('Email ou senha incorretos!', 'danger') # Se email ou senha incorretos, mensagem de erro
+        if usuario and usuario.check_senha(senha): # Verifica se encontrou o email e se a senha bate com a salva
+                login_user(usuario) # Efetiva o login
+                flash(f'Bem-vindo de volta, {usuario.nome}!', 'success') # Envia mensagem de boas-vindas
+                return redirect(url_for('main.home')) # Manda o usuário pra home
+        else:
+            flash('Email ou senha incorretos!', 'danger') # Se email ou senha incorretos, mensagem de erro
 
     return render_template('login.html') # Essa linha só executa se o usuário acessou a página de login (GET), ou se o login falhou
 
