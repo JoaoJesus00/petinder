@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+*.pyc
+petinder.db
+.env
+instance/
