@@ -1,4 +1,4 @@
-# Esse arquivo é o que inicia o sistema, é o único que ser executado no terminal para colocar o site no ar
+# Esse arquivo é o que inicia o sistema, é o único a ser executado no terminal para colocar o site no ar
 # Chama a função criada em __init__.py
 from app import create_app # Essa função monta o site completo
 
