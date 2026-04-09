@@ -20,7 +20,7 @@ class Animal(db.Model): # db.Model transforma essa classe em uma tabela do banco
     # Relacionamento: Atalho pra acessar a espécie do animal
     especie = db.relationship('Especie', backref='animais', lazy=True)
 
-    def tem_pedigree(self): # Retorna se True se tem pedigree
+    def tem_pedigree(self): # Retorna True se tem pedigree
         return self.pedigree == 1
     
     def get_genero(self): # Retorna macho ou fêmea
