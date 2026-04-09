@@ -1,6 +1,6 @@
 # Esse arquivo é o que inicia o sistema, é o único a ser executado no terminal para colocar o site no ar
 # Chama a função criada em __init__.py
-from app import create_app # Essa função monta o site completo
+from app import create_app # Essa função monta o site completo, ela vem de app/__init__.py
 
 app = create_app() # Chamando a função do __init__ e guardando na variável "app"
 if __name__ == '__main__':
