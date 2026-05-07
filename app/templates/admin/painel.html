@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}PeTinder — Painel Admin{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4>⚙️ Painel Administrativo</h4>
+    <a href="{{ url_for('admin.novo_anuncio') }}" class="btn btn-danger">
+        + Novo Anúncio
+    </a>
+</div>
+
+<!-- ESTATÍSTICAS -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card text-center p-3">
+            <h2 class="text-danger fw-bold">{{ anuncios|length }}</h2>
+            <p class="text-muted mb-0">Total de Anúncios</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card text-center p-3">
+            <h2 class="text-success fw-bold">
+                {{ anuncios|selectattr('ativo', 'equalto', 1)|list|length }}
+            </h2>
+            <p class="text-muted mb-0">Anúncios Ativos</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card text-center p-3">
+            <h2 class="text-secondary fw-bold">
+                {{ anuncios|selectattr('ativo', 'equalto', 0)|list|length }}
+            </h2>
+            <p class="text-muted mb-0">Anúncios Inativos</p>
+        </div>
+    </div>
+</div>
+
+<!-- LISTA DE ANÚNCIOS -->
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title mb-4">📢 Anúncios Cadastrados</h5>
+
+        {% if anuncios %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Banner</th>
+                            <th>Anunciante</th>
+                            <th>Link</th>
+                            <th>Status</th>
+                            <th>Cadastrado em</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for anuncio in anuncios %}
+                            <tr>
+                                <td>
+                                    <img src="{{ anuncio.imagem_url }}"
+                                         style="width:80px;height:40px;object-fit:cover;border-radius:8px">
+                                </td>
+                                <td>
+                                    <strong>{{ anuncio.nome_anunciante }}</strong>
+                                </td>
+                                <td>
+                                    <a href="{{ anuncio.link_url }}" target="_blank" class="text-muted small">
+                                        {{ anuncio.link_url[:30] }}...
+                                    </a>
+                                </td>
+                                <td>
+                                    {% if anuncio.esta_ativo() %}
+                                        <span class="badge bg-success">Ativo</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Inativo</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-muted small">{{ anuncio.criado_em }}</td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ url_for('admin.toggle_anuncio', anuncio_id=anuncio.id) }}"
+                                           class="btn btn-sm {% if anuncio.esta_ativo() %}btn-warning{% else %}btn-success{% endif %}">
+                                            {% if anuncio.esta_ativo() %}
+                                                ⏸ Pausar
+                                            {% else %}
+                                                ▶ Ativar
+                                            {% endif %}
+                                        </a>
+                                        <a href="{{ url_for('admin.excluir_anuncio', anuncio_id=anuncio.id) }}"
+                                           class="btn btn-sm btn-outline-danger"
+                                           onclick="return confirm('Tem certeza que quer excluir esse anúncio?')">
+                                            🗑️
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <p class="fs-1">📢</p>
+                <p class="text-muted">Nenhum anúncio cadastrado ainda.</p>
+                <a href="{{ url_for('admin.novo_anuncio') }}" class="btn btn-danger">
+                    Criar primeiro anúncio
+                </a>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}PeTinder — Novo Anúncio{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <div class="form-container">
+
+            <h2 class="text-center">📢 Novo Anúncio</h2>
+            <p class="text-center text-muted">Cadastre um novo banner publicitário</p>
+
+            <form method="POST" action="{{ url_for('admin.novo_anuncio') }}">
+
+                <div class="mb-3">
+                    <label class="form-label">Nome do anunciante</label>
+                    <input type="text" name="nome_anunciante" class="form-control"
+                           placeholder="Ex: Pet Shop do João" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">URL da imagem do banner</label>
+                    <input type="url" name="imagem_url" class="form-control"
+                           placeholder="https://..." required id="imagem_url">
+                    <small class="text-muted">Cole o link direto da imagem do banner</small>
+                </div>
+
+                <!-- Preview da imagem -->
+                <div class="mb-3" id="preview_container" style="display:none">
+                    <label class="form-label">Preview do banner</label>
+                    <img id="preview_img" src=""
+                         style="width:100%;height:100px;object-fit:cover;border-radius:12px">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">URL de destino</label>
+                    <input type="url" name="link_url" class="form-control"
+                           placeholder="https://..." required>
+                    <small class="text-muted">Para onde o usuário vai ao clicar no banner</small>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <a href="{{ url_for('admin.painel') }}"
+                       class="btn btn-outline-secondary flex-grow-1">
+                        Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-danger flex-grow-1">
+                        Criar Anúncio
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Preview da imagem em tempo real
+    const inputImagem = document.getElementById('imagem_url');
+    const previewContainer = document.getElementById('preview_container');
+    const previewImg = document.getElementById('preview_img');
+
+    inputImagem.addEventListener('input', function() {
+        const url = this.value;
+        if (url.startsWith('http')) {
+            previewImg.src = url;
+            previewContainer.style.display = 'block';
+            previewImg.onerror = function() {
+                previewContainer.style.display = 'none';
+            }
+        } else {
+            previewContainer.style.display = 'none';
+        }
+    });
+</script>
+{% endblock %}
