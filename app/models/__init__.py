@@ -9,5 +9,6 @@ from app.models.especie import Especie
 from app.models.cidade import Cidade
 from app.models.estado import Estado
 from app.models.raca import Raca
+from app.models.curtida import Curtida
 
 # Importa todas as classes dos modelos para facilitar a importação para outros lugares dentro do projeto

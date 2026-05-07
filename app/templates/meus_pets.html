@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}PeTinder — Meus Pets{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4>🐾 Meus Pets</h4>
+    {% if current_user.pode_adicionar_animal() %}
+        <a href="{{ url_for('pets.novo_pet') }}" class="btn btn-danger">
+            + Adicionar Pet
+        </a>
+    {% else %}
+        <a href="{{ url_for('main.premium') }}" class="btn btn-warning">
+            ⭐ Upgrade para adicionar mais pets
+        </a>
+    {% endif %}
+</div>
+
+{% if current_user.animais %}
+    <div class="row">
+        {% for animal in current_user.animais %}
+            <div class="col-md-4 mb-4">
+                <div class="card pet-card">
+
+                    <img src="{{ animal.get_foto() }}" alt="{{ animal.nome }}">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ animal.nome }}</h5>
+
+                        <p class="text-muted small mb-1">
+                            <strong>Espécie:</strong> {{ animal.especie.nome }}
+                        </p>
+                        <p class="text-muted small mb-1">
+                            <strong>Raça:</strong>
+                            {% if animal.raca %}
+                                {{ animal.raca.nome }}
+                            {% else %}
+                                Não informada
+                            {% endif %}
+                        </p>
+                        <p class="text-muted small mb-1">
+                            <strong>Gênero:</strong> {{ animal.get_genero() }}
+                        </p>
+                        <p class="text-muted small mb-1">
+                            <strong>Idade:</strong> {{ animal.idade }} meses
+                        </p>
+                        <p class="text-muted small mb-2">
+                            <strong>Pedigree:</strong>
+                            {% if animal.tem_pedigree() %}
+                                ✅ Sim
+                            {% else %}
+                                ❌ Não
+                            {% endif %}
+                        </p>
+
+                        {% if animal.descricao %}
+                            <p class="small text-muted border-top pt-2">
+                                {{ animal.descricao }}
+                            </p>
+                        {% endif %}
+
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="{{ url_for('pets.buscar', animal_id=animal.id) }}"
+                               class="btn btn-danger btn-sm flex-grow-1">
+                                🔍 Buscar
+                            </a>
+                            <a href="{{ url_for('pets.editar_pet', animal_id=animal.id) }}"
+                               class="btn btn-outline-secondary btn-sm">
+                                ✏️
+                            </a>
+                            <a href="{{ url_for('pets.excluir_pet', animal_id=animal.id) }}"
+                               class="btn btn-outline-danger btn-sm"
+                               onclick="return confirm('Tem certeza que quer remover {{ animal.nome }}?')">
+                                🗑️
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% else %}
+    <div class="text-center py-5">
+        <p class="fs-1">🐾</p>
+        <h5 class="text-muted">Você ainda não tem pets cadastrados!</h5>
+        <p class="text-muted">Cadastre seu primeiro pet e comece a encontrar parceiros.</p>
+        <a href="{{ url_for('pets.novo_pet') }}" class="btn btn-danger btn-lg mt-2">
+            Cadastrar meu primeiro pet
+        </a>
+    </div>
+{% endif %}
+
+{% endblock %}

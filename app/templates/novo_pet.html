@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}PeTinder — Novo Pet{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <div class="form-container">
+
+            <h2 class="text-center">🐾 Cadastrar Pet</h2>
+            <p class="text-center text-muted">Preencha os dados do seu pet!</p>
+
+            <form method="POST" action="{{ url_for('pets.novo_pet') }}" enctype="multipart/form-data">
+
+                <div class="mb-3">
+                    <label class="form-label">Nome do pet</label>
+                    <input type="text" name="nome" class="form-control" placeholder="Ex: Rex" required>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Espécie</label>
+                        <select name="id_especie" id="id_especie" class="form-select" required>
+                            <option value="">Selecione</option>
+                            {% for especie in especies %}
+                                <option value="{{ especie.id }}">{{ especie.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Raça</label>
+                        <select name="id_raca" id="id_raca" class="form-select">
+                            <option value="">Selecione a espécie primeiro</option>
+                            {% for raca in racas %}
+                                <option value="{{ raca.id }}" data-especie="{{ raca.id_especie }}">
+                                    {{ raca.nome }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Gênero</label>
+                        <select name="genero" class="form-select" required>
+                            <option value="">Selecione</option>
+                            <option value="M">Macho</option>
+                            <option value="F">Fêmea</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Idade (em meses)</label>
+                        <input type="number" name="idade" class="form-control"
+                               placeholder="Ex: 24" min="1" max="300">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" name="pedigree"
+                               class="form-check-input" id="pedigree">
+                        <label class="form-check-label" for="pedigree">
+                            Possui pedigree
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Foto do pet</label>
+                    <input type="file" name="foto" class="form-control"
+                           accept=".jpg,.jpeg,.png,.gif">
+                    <small class="text-muted">Formatos aceitos: JPG, PNG, GIF</small>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Descrição</label>
+                    <textarea name="descricao" class="form-control" rows="3"
+                              placeholder="Conte um pouco sobre seu pet..."></textarea>
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-danger btn-lg">
+                        Cadastrar Pet
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Filtra as raças de acordo com a espécie selecionada
+    const selectEspecie = document.getElementById('id_especie');
+    const selectRaca = document.getElementById('id_raca');
+
+    selectEspecie.addEventListener('change', function() {
+        const especieId = this.value;
+        const opcoes = selectRaca.querySelectorAll('option');
+
+        opcoes.forEach(function(opcao) {
+            if (opcao.value === '') {
+                opcao.style.display = 'block';
+                opcao.text = 'Selecione a raça';
+            } else if (opcao.dataset.especie === especieId) {
+                opcao.style.display = 'block';
+            } else {
+                opcao.style.display = 'none';
+            }
+        });
+
+        selectRaca.value = '';
+    });
+</script>
+{% endblock %}

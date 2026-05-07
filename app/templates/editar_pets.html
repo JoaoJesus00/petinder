@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block title %}PeTinder — Editar Pet{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <div class="form-container">
+
+            <h2 class="text-center">✏️ Editar Pet</h2>
+            <p class="text-center text-muted">Atualize os dados de {{ animal.nome }}!</p>
+
+            <form method="POST" 
+                  action="{{ url_for('pets.editar_pet', animal_id=animal.id) }}" 
+                  enctype="multipart/form-data">
+
+                <div class="mb-3">
+                    <label class="form-label">Nome do pet</label>
+                    <input type="text" name="nome" class="form-control" 
+                           value="{{ animal.nome }}" required>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Espécie</label>
+                        <select name="id_especie" id="id_especie" class="form-select" required>
+                            {% for especie in especies %}
+                                <option value="{{ especie.id }}"
+                                    {% if especie.id == animal.id_especie %}selected{% endif %}>
+                                    {{ especie.nome }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Raça</label>
+                        <select name="id_raca" id="id_raca" class="form-select">
+                            <option value="">Não informada</option>
+                            {% for raca in racas %}
+                                <option value="{{ raca.id }}"
+                                        data-especie="{{ raca.id_especie }}"
+                                    {% if animal.id_raca == raca.id %}selected{% endif %}>
+                                    {{ raca.nome }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Gênero</label>
+                        <select name="genero" class="form-select" required>
+                            <option value="M" {% if animal.genero == 'M' %}selected{% endif %}>
+                                Macho
+                            </option>
+                            <option value="F" {% if animal.genero == 'F' %}selected{% endif %}>
+                                Fêmea
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Idade (em meses)</label>
+                        <input type="number" name="idade" class="form-control"
+                               value="{{ animal.idade or '' }}" min="1" max="300">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" name="pedigree"
+                               class="form-check-input" id="pedigree"
+                               {% if animal.tem_pedigree() %}checked{% endif %}>
+                        <label class="form-check-label" for="pedigree">
+                            Possui pedigree
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Foto do pet</label>
+                    {% if animal.foto %}
+                        <div class="mb-2">
+                            <img src="{{ animal.get_foto() }}"
+                                 class="rounded"
+                                 style="width:100px;height:100px;object-fit:cover">
+                            <small class="text-muted d-block mt-1">
+                                Foto atual. Envie uma nova para substituir.
+                            </small>
+                        </div>
+                    {% endif %}
+                    <input type="file" name="foto" class="form-control"
+                           accept=".jpg,.jpeg,.png,.gif">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Descrição</label>
+                    <textarea name="descricao" class="form-control" rows="3">{{ animal.descricao or '' }}</textarea>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <a href="{{ url_for('pets.meus_pets') }}" 
+                       class="btn btn-outline-secondary flex-grow-1">
+                        Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-danger flex-grow-1">
+                        Salvar alterações
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const selectEspecie = document.getElementById('id_especie');
+    const selectRaca = document.getElementById('id_raca');
+
+    function filtrarRacas(especieId) {
+        const opcoes = selectRaca.querySelectorAll('option');
+        opcoes.forEach(function(opcao) {
+            if (opcao.value === '') {
+                opcao.style.display = 'block';
+            } else if (opcao.dataset.especie === especieId) {
+                opcao.style.display = 'block';
+            } else {
+                opcao.style.display = 'none';
+            }
+        });
+    }
+
+    filtrarRacas(selectEspecie.value);
+
+    selectEspecie.addEventListener('change', function() {
+        filtrarRacas(this.value);
+        selectRaca.value = '';
+    });
+</script>
+{% endblock %}
