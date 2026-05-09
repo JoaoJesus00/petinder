@@ -17,6 +17,7 @@ class Usuario(UserMixin, db.Model):
     id_cidade = db.Column(db.Integer, db.ForeignKey('cidade.id'), nullable=False) # Chave estrangeira
     senha = db.Column(db.String(255), nullable=False)
     plano = db.Column(db.String(10), default='free')
+    telefone = db.Column(db.String(20))
     
     # Relacionamentos:
     animais = db.relationship('Animal', backref='dono', lazy=True)

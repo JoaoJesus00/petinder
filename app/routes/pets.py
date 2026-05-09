@@ -226,14 +226,17 @@ def swipe(animal_id, alvo_id, direcao):
                 db.session.add(novo_match)
 
                 # Notifica os dois tutores
+                telefone_dono_alvo = alvo.dono.telefone if alvo.dono.telefone else 'telefone não informado'
+                telefone_atual = current_user.telefone if current_user.telefone else 'telefone não informado'
+
                 notif_1 = Notificacao(
                     id_usuario=current_user.id,
-                    mensagem=f'🎉 Match! {animal.nome} e {alvo.nome} deram match!',
+                    mensagem=f'🎉 Match! {animal.nome} e {alvo.nome} deram match! Entre em contato com o tutor: {telefone_dono_alvo}',
                     data=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 )
                 notif_2 = Notificacao(
                     id_usuario=alvo.id_usuario,
-                    mensagem=f'🎉 Match! {alvo.nome} e {animal.nome} deram match!',
+                    mensagem=f'🎉 Match! {alvo.nome} e {animal.nome} deram match! Entre em contato com o tutor: {telefone_atual}',
                     data=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 )
                 db.session.add(notif_1)

@@ -31,6 +31,7 @@ def perfil():
         current_user.nome = request.form.get('nome') # Atualiza os dados
         current_user.endereco = request.form.get('endereco')
         current_user.id_cidade = request.form.get('id_cidade')
+        current_user.telefone = request.form.get('telefone')
         db.session.commit() # Salva as mudanças no banco de dados
         flash('Perfil atualizado com sucesso!', 'success') 
         return redirect(url_for('main.perfil')) # Redireciona de volta para a página de perfil

@@ -85,6 +85,15 @@
                            value="{{ current_user.endereco or '' }}">
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Telefone</label>
+                    <input type="text" 
+                        name="telefone" 
+                        class="form-control" 
+                        value="{{ current_user.telefone or '' }}"
+                        placeholder="(11) 99999-9999">
+                </div>
+
                 <div class="d-grid mt-4">
                     <button type="submit" class="btn btn-danger btn-lg">
                         Salvar alterações
