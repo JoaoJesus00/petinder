@@ -45,6 +45,7 @@ def cadastro():
     if request.method == 'POST': # Abaixo pega todos os dados do formulário de cadastro
         nome = request.form.get('nome')
         email = request.form.get('email')
+        telefone = request.form.get('telefone')
         cpf = request.form.get('cpf')
         endereco = request.form.get('endereco')
         id_cidade = request.form.get('id_cidade')
@@ -66,6 +67,7 @@ def cadastro():
         novo_usuario = Usuario(  # Se tudo estiver certo, cria um objeto Usuário com esses dados do formulário
             nome=nome,
             email=email,
+            telefone=telefone,
             cpf=cpf,
             endereco=endereco,
             id_cidade=id_cidade,
